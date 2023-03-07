@@ -1,77 +1,65 @@
-import React from 'react'
-import { useState } from 'react';
+
 import Form from './Form'
+import React, { useState } from 'react';
+import Card from './Card';
 
 
-
-function Weathermap() {
-
-let Url = "https://api.openweathermap.org/data/2.5/weather?&appid=fd31cecaca6e39cc8080eb72cbda17b6&lang=es";
-let cityUrl = "&q=";
-const [weather, setWeather]= useState([]);
-
-let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?&appid=fd31cecaca6e39cc8080eb72cbda17b6&lang=es";
-const [forecast, setForecast]= useState([]);
-
-const [loading, setLoading]= useState([false])
-
-const [show, setShow]=useState([false]);
-const [location, setLocation]=useState("");
-
-const getLocation = async(loc)=>{
-
+ const Weathermap =()=> {
+  let Url = "https://api.openweathermap.org/data/2.5/weather?&appid=fd31cecaca6e39cc8080eb72cbda17b6&lang=es";
+  let cityUrl = "&q=";
+  let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?&appid=fd31cecaca6e39cc8080eb72cbda17b6&lang=es";
   
-  setLocation(loc);
 
-  //llamamos al tiempo
 
-  Url = Url + cityUrl + loc;
+  const [weather, setWeather]= useState([]);
+  const [forecast, setForecast]= useState([]);
+  const [location, setLocation]=useState("");
+  
+  const getLocation = async (loc)=>{
 
-  await fetch(Url).then((res)=> {
-
-    if(!res.ok)throw{res}
-
-    return res.json().then((weatherData)=>{
-
-    console.log(weatherData);
-    setWeather(weatherData);
-
-    }).catch(error =>{
-      console.log(error)
+    setLocation(loc)
+    //JON PORQUE SE INVENTA EL LOC DE DONDE LO SACA?
+   Url = Url + cityUrl + loc;
+    
+    await fetch(Url).then((res)=>{
       
-    })
+      if(!res.ok)throw{res}
+      return res.json();
+    }).then((weatherData)=>{
+      console.log(weatherData)
+        setWeather(weatherData);
+      });
 
+      forecastUrl = forecastUrl + cityUrl + loc;
     
-
-  })
-  forecastUrl = forecastUrl + cityUrl + loc;
-
-  await fetch(forecastUrl).then((res)=> {
-
-    if(!res.ok)throw{res}
-
-    return res.json().then((forecastdata)=>{
-
-    console.log(forecastdata);
-    setForecast(forecastdata);
-
-    }).catch(error =>{
-      console.log(error)
-     
-    })
-
-    
-
-  })
-
+    await fetch(forecastUrl).then((res)=>{
+      
+      if(!res.ok)throw{res}
+      return res.json();
+    }).then((forecastData)=>{
+      
+        setForecast(forecastData);
+      });
+      
+  }
+ 
+ 
   return (
-   <React.component>
-    <Form 
-    newLocation={getLocation}
-    />
-   </React.component>
+    
+    <React.Fragment>
+      <Form
+      newLocation= {getLocation}
+      />
+      <Card
+      weather={weather}
+      forecast={forecast}
+      />
+    </React.Fragment>
+    
     
   );
-}}
-
+  
+  
+}
 export default Weathermap;
+

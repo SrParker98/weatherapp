@@ -18,7 +18,7 @@ import Card from './Card';
   const getLocation = async (loc)=>{
 
     setLocation(loc)
-    //JON PORQUE SE INVENTA EL LOC DE DONDE LO SACA?
+    
    Url = Url + cityUrl + loc;
     
     await fetch(Url).then((res)=>{

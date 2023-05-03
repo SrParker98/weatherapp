@@ -6,7 +6,6 @@ const Form = ({newLocation}) =>{
 
     const onSumbit = (e)=>{
         e.preventDefault();
-
        
         if(city==="" || !city) return;
         newLocation(city)
@@ -24,10 +23,5 @@ const Form = ({newLocation}) =>{
         </div>
          
     )
-    
 }
-
-
-
-
 export default Form;
